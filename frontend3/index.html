@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>SOSync Rescue Command Center</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================
+     HEADER
+     ========================================= -->
+
+<header>
+
+    <div>
+
+        <h1>SOSync</h1>
+
+        <p>
+            RESCUE COMMAND CENTER
+        </p>
+
+    </div>
+
+
+    <div class="status">
+
+        <span></span>
+
+        SYSTEM ONLINE
+
+    </div>
+
+</header>
+
+
+
+<!-- =========================================
+     STATISTICS
+     ========================================= -->
+
+<section class="stats">
+
+
+    <div class="stat-card">
+
+        <h3>
+            ACTIVE DEVICES
+        </h3>
+
+        <strong>
+            03
+        </strong>
+
+    </div>
+
+
+
+    <div class="stat-card">
+
+        <h3>
+            ACTIVE DRONES
+        </h3>
+
+        <strong>
+            01
+        </strong>
+
+    </div>
+
+
+
+    <div class="stat-card">
+
+        <h3>
+            DRONE RANGE
+        </h3>
+
+        <strong>
+            500 m
+        </strong>
+
+    </div>
+
+
+
+    <div class="stat-card">
+
+        <h3>
+            SYSTEM STATUS
+        </h3>
+
+        <strong class="online-stat">
+            ONLINE
+        </strong>
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =========================================
+     MAIN
+     ========================================= -->
+
+<main>
+
+
+    <!-- =====================================
+         MAP
+         ===================================== -->
+
+    <section class="map-section">
+
+
+        <div class="section-title">
+
+            <h2>
+                LIVE DISASTER MAP
+            </h2>
+
+            <p>
+                REAL-TIME SIGNAL LOCATIONS
+            </p>
+
+        </div>
+
+
+        <div id="map"></div>
+
+
+    </section>
+
+
+
+    <!-- =====================================
+         RIGHT PANEL
+         ===================================== -->
+
+    <aside>
+
+
+        <div class="panel-heading">
+
+
+            <div>
+
+                <div class="eyebrow">
+                    SELECTED DEVICE
+                </div>
+
+                <h2>
+
+                    LIVE SIGNAL
+
+                    <br>
+
+                    STATUS
+
+                </h2>
+
+            </div>
+
+
+
+            <div
+                class="selected-meta"
+                id="panelSubtitle"
+            >
+
+                SOS-07 • LAST 30-60
+
+                <br>
+
+                SECONDS
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================
+             DEVICE INFO
+             ================================= -->
+
+        <div class="device-info-card">
+
+
+            <div class="info-item">
+
+                <span>
+                    DEVICE ID
+                </span>
+
+                <strong id="deviceId">
+                    SOS-07
+                </strong>
+
+            </div>
+
+
+
+            <div class="info-item">
+
+                <span>
+                    DEVICE TYPE
+                </span>
+
+                <strong id="deviceType">
+                    Victim Phone
+                </strong>
+
+            </div>
+
+
+
+            <div class="info-item">
+
+                <span>
+                    CONNECTION STATUS
+                </span>
+
+                <strong
+                    id="deviceConnection"
+                    class="good-text"
+                >
+                    CONNECTED
+                </strong>
+
+            </div>
+
+
+
+            <div class="info-item">
+
+                <span>
+                    SIGNAL QUALITY
+                </span>
+
+                <strong
+                    id="deviceQuality"
+                    class="good-text"
+                >
+                    GOOD
+                </strong>
+
+            </div>
+
+
+
+            <div class="info-item distance-item">
+
+                <span id="distanceLabel">
+                    DISTANCE
+                </span>
+
+                <strong id="deviceDistance">
+                    65 m from DRONE-01
+                </strong>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================
+             DRONE RANGE INFORMATION
+             ================================= -->
+
+        <div
+            class="range-info-card"
+            id="rangeInfo"
+        >
+
+            <div class="range-icon">
+                ◉
+            </div>
+
+
+            <div>
+
+                <strong>
+                    DRONE COVERAGE
+                </strong>
+
+                <p id="rangeDeviceCount">
+                    3 DEVICES UNDER DRONE RANGE
+                </p>
+
+                <span class="range-description">
+
+                    Devices currently within the
+                    500 m communication range.
+
+                </span>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================
+             SIGNAL STRENGTH
+             ================================= -->
+
+        <div class="signal-strength-card">
+
+
+            <div class="signal-top">
+
+                <span>
+                    SIGNAL STRENGTH
+                </span>
+
+
+                <strong>
+
+                    <span id="rssiValue">
+                        -47
+                    </span>
+
+                    dBm
+
+                </strong>
+
+            </div>
+
+
+
+            <div
+                class="signal-bars"
+                id="signalBars"
+            >
+
+                <div class="signal-bar bar-1"></div>
+
+                <div class="signal-bar bar-2"></div>
+
+                <div class="signal-bar bar-3"></div>
+
+                <div class="signal-bar bar-4"></div>
+
+                <div class="signal-bar bar-5"></div>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================
+             HISTORY
+             ================================= -->
+
+        <div class="history-heading">
+
+            <span>
+                SIGNAL HISTORY
+            </span>
+
+            <span>
+                LIVE FEED
+            </span>
+
+        </div>
+
+
+
+        <div class="history-card">
+
+
+            <div class="history-card-header">
+
+                <strong>
+                    SIGNAL HISTORY
+                </strong>
+
+                <span>
+                    LIVE
+                </span>
+
+            </div>
+
+
+
+            <div class="wave-container">
+
+                <svg
+                    class="signal-history-svg"
+                    viewBox="0 0 500 190"
+                    preserveAspectRatio="none"
+                >
+
+                    <path
+                        id="signalFill"
+                        d=""
+                    ></path>
+
+
+                    <path
+                        id="signalLine"
+                        d=""
+                    ></path>
+
+                </svg>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================
+             DRONE STATUS
+             ================================= -->
+
+        <div class="drone-card">
+
+
+            <div>
+
+                <h3>
+                    DRONE-01
+                </h3>
+
+
+                <div class="drone-status">
+
+                    <span></span>
+
+                    SCANNING
+
+                </div>
+
+            </div>
+
+
+
+            <p>
+
+                Signals detected:
+
+                <b>
+                    03
+                </b>
+
+            </p>
+
+
+        </div>
+
+
+    </aside>
+
+
+</main>
+
+
+
+<!-- =========================================
+     LEAFLET
+     ========================================= -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"
+></script>
+
+
+<script src="script.js"></script>
+
+
+</body>
+
+</html>
