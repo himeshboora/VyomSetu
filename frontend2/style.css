@@ -1,0 +1,1514 @@
+/* =========================================
+   SOSync — RESCUE COMMAND CENTER
+   ========================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #09060d;
+    color: #f2edf7;
+    min-height: 100vh;
+}
+
+
+/* =========================================
+   HEADER
+   ========================================= */
+
+header {
+    height: 70px;
+    padding: 0 32px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    background: #0d0912;
+    border-bottom: 1px solid #281a34;
+}
+
+header h1 {
+    font-size: 27px;
+    letter-spacing: 2px;
+    color: white;
+}
+
+header p {
+    margin-top: 3px;
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: #756581;
+}
+
+.status {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    font-size: 9px;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+
+    color: #7fffd4;
+}
+
+.status span {
+    width: 8px;
+    height: 8px;
+
+    border-radius: 50%;
+
+    background: #7fffd4;
+
+    box-shadow:
+        0 0 8px #7fffd4,
+        0 0 18px rgba(127,255,212,.5);
+
+    animation: onlinePulse 1.5s infinite;
+}
+
+@keyframes onlinePulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: .35;
+    }
+}
+
+
+/* =========================================
+   STATISTICS
+   ========================================= */
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 14px;
+
+    padding: 22px 32px;
+}
+
+.stat-card {
+    position: relative;
+
+    height: 88px;
+
+    padding: 18px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #100a16,
+            #0c0811
+        );
+
+    border: 1px solid #30203d;
+
+    border-radius: 9px;
+
+    overflow: hidden;
+}
+
+.stat-card::after {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    bottom: 0;
+
+    width: 100%;
+    height: 2px;
+
+    background: #7fffd4;
+
+    opacity: .3;
+}
+
+.stat-card h3 {
+    font-size: 9px;
+    letter-spacing: 2px;
+
+    color: #766582;
+
+    margin-bottom: 8px;
+}
+
+.stat-card strong {
+    font-size: 27px;
+    color: white;
+}
+
+
+/* =========================================
+   MAIN
+   ========================================= */
+
+main {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 2fr)
+        minmax(370px, 1fr);
+
+    gap: 20px;
+
+    padding: 0 32px 32px;
+}
+
+
+/* =========================================
+   SECTION TITLE
+   ========================================= */
+
+.section-title {
+    margin-bottom: 13px;
+}
+
+.section-title h2 {
+    font-size: 12px;
+    letter-spacing: 1.8px;
+    color: white;
+}
+
+.section-title p {
+    margin-top: 5px;
+
+    font-size: 8px;
+    letter-spacing: 1.5px;
+
+    color: #665970;
+}
+
+
+/* =========================================
+   MAP
+   ========================================= */
+
+.map-section {
+    min-width: 0;
+}
+
+#map {
+    width: 100%;
+    height: 590px;
+
+    border: 1px solid #382247;
+    border-radius: 11px;
+
+    overflow: hidden;
+
+    background: #111;
+
+    box-shadow:
+        0 0 30px
+        rgba(100,50,130,.08);
+
+    transition:
+        height .35s ease,
+        border-radius .35s ease;
+}
+
+
+/* =========================================
+   MAP THEME
+   ONLY THE MAP TILES ARE CHANGED
+   ========================================= */
+
+/*
+   LIGHT MAP
+   Black + white / grayscale
+*/
+
+#map.map-light .leaflet-tile-pane {
+    filter:
+        grayscale(1)
+        contrast(1.12)
+        brightness(1.05);
+}
+
+
+/*
+   DARK MAP
+   Black tactical disaster map
+*/
+
+#map.map-dark .leaflet-tile-pane {
+    filter:
+        grayscale(1)
+        invert(.92)
+        brightness(.68)
+        contrast(1.25);
+}
+
+
+/*
+   IMPORTANT:
+   Markers, circles and mesh lines are NOT
+   affected by the filters above.
+*/
+
+
+/* =========================================
+   MAP THEME BUTTON
+   ========================================= */
+
+.map-theme-button {
+
+    width: 38px;
+    height: 38px;
+
+    margin: 10px !important;
+
+    padding: 0;
+
+    background:
+        rgba(13,9,18,.95);
+
+    border:
+        1px solid #53346b !important;
+
+    border-radius: 7px;
+
+    color: #7fffd4;
+
+    font-size: 18px;
+
+    line-height: 34px;
+
+    text-align: center;
+
+    cursor: pointer;
+
+    transition: .2s ease;
+
+    box-shadow:
+        0 0 10px
+        rgba(127,255,212,.12);
+}
+
+.map-theme-button:hover {
+
+    background: #1b1024;
+
+    color: #ff4f9a;
+
+    border-color:
+        #ff4f9a !important;
+
+    box-shadow:
+        0 0 15px
+        rgba(255,79,154,.35);
+}
+
+
+/* =========================================
+   RIGHT PANEL
+   ========================================= */
+
+aside {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 14px;
+
+    min-width: 0;
+}
+
+
+/* =========================================
+   PANEL HEADING
+   ========================================= */
+
+.panel-heading {
+    min-height: 58px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-start;
+}
+
+.eyebrow {
+    font-size: 9px;
+
+    letter-spacing: 2px;
+
+    color: #7fffd4;
+
+    margin-bottom: 8px;
+}
+
+.panel-heading h2 {
+    font-size: 22px;
+
+    line-height: 1.15;
+
+    letter-spacing: -.3px;
+
+    color: #f6f1f8;
+}
+
+.selected-meta {
+    padding-top: 1px;
+
+    width: 105px;
+
+    font-size: 9px;
+
+    line-height: 1.35;
+
+    letter-spacing: 1px;
+
+    color: #a59ba9;
+}
+
+
+/* =========================================
+   DEVICE INFO
+   ========================================= */
+
+.device-info-card {
+
+    padding: 18px 16px;
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    column-gap: 25px;
+
+    row-gap: 16px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #14100f,
+            #110e0e
+        );
+
+    border: 1px solid #3a3030;
+
+    border-radius: 13px;
+}
+
+.info-item {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 5px;
+}
+
+.info-item span {
+
+    font-size: 8px;
+
+    font-weight: bold;
+
+    letter-spacing: 1.5px;
+
+    color: #8d838b;
+}
+
+.info-item strong {
+
+    font-size: 11px;
+
+    color: #f3edf2;
+}
+
+.good-text {
+
+    color: #81bd9d !important;
+}
+
+.distance-item {
+
+    grid-column: 1 / 2;
+}
+
+
+/* =========================================
+   SIGNAL STRENGTH
+   ========================================= */
+
+.signal-strength-card {
+
+    height: 175px;
+
+    padding: 17px 15px 15px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #171412,
+            #12100f
+        );
+
+    border: 1px solid #3b302f;
+
+    border-radius: 13px;
+
+    overflow: hidden;
+}
+
+.signal-top {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+}
+
+.signal-top > span {
+
+    font-size: 8px;
+
+    font-weight: bold;
+
+    letter-spacing: 1.5px;
+
+    color: #8e858b;
+}
+
+.signal-top > strong {
+
+    font-size: 23px;
+
+    color: #f4eff2;
+}
+
+#rssiValue {
+
+    color: #7fffd4;
+
+    font-size: 23px;
+
+    text-shadow:
+        0 0 10px
+        rgba(127,255,212,.35);
+}
+
+
+/* =========================================
+   SIGNAL BARS
+   ========================================= */
+
+.signal-bars {
+
+    height: 105px;
+
+    display: flex;
+
+    align-items: flex-end;
+
+    gap: 9px;
+
+    padding: 8px 1px 0;
+}
+
+.signal-bar {
+
+    flex: 1;
+
+    border-radius:
+        6px 6px 3px 3px;
+
+    background:
+        linear-gradient(
+            to top,
+            rgba(127,255,212,.22),
+            rgba(127,255,212,.85)
+        );
+
+    box-shadow:
+        0 0 14px
+        rgba(127,255,212,.22);
+
+    transition:
+        opacity .3s ease,
+        box-shadow .3s ease;
+}
+
+.bar-1 {
+    height: 30px;
+}
+
+.bar-2 {
+    height: 45px;
+}
+
+.bar-3 {
+    height: 60px;
+}
+
+.bar-4 {
+    height: 75px;
+}
+
+.bar-5 {
+    height: 90px;
+}
+
+.signal-bar.active {
+
+    opacity: 1;
+
+    box-shadow:
+        0 0 10px
+        rgba(127,255,212,.5),
+
+        0 0 25px
+        rgba(127,255,212,.2);
+}
+
+.signal-bar.inactive {
+
+    opacity: .7;
+
+    background:
+        linear-gradient(
+            to top,
+            #202020,
+            #2b2b2b
+        );
+
+    box-shadow: none;
+}
+
+
+/* =========================================
+   HISTORY HEADING
+   ========================================= */
+
+.history-heading {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 2px 1px 0;
+}
+
+.history-heading span:first-child {
+
+    font-size: 9px;
+
+    font-weight: bold;
+
+    letter-spacing: 1.7px;
+
+    color: #7fffd4;
+}
+
+.history-heading span:last-child {
+
+    font-size: 9px;
+
+    letter-spacing: 1px;
+
+    color: #91858e;
+}
+
+
+/* =========================================
+   HISTORY CARD
+   ========================================= */
+
+.history-card {
+
+    height: 238px;
+
+    padding: 14px;
+
+    background: #0d1616;
+
+    border: 1px solid #315c5a;
+
+    border-radius: 15px;
+
+    box-shadow:
+        inset 0 0 25px
+        rgba(127,255,212,.025),
+
+        0 0 18px
+        rgba(127,255,212,.035);
+
+    overflow: hidden;
+}
+
+.history-card-header {
+
+    height: 22px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+}
+
+.history-card-header strong {
+
+    font-size: 9px;
+
+    letter-spacing: 1px;
+
+    color: #e7e0e6;
+}
+
+.history-card-header span {
+
+    font-size: 9px;
+
+    letter-spacing: 1px;
+
+    color: #7fffd4;
+}
+
+
+/* =========================================
+   FILLED WAVEFORM
+   ========================================= */
+
+.wave-container {
+
+    position: relative;
+
+    height: 190px;
+
+    margin-top: 2px;
+
+    overflow: hidden;
+}
+
+.signal-history-svg {
+
+    width: 100%;
+
+    height: 100%;
+
+    display: block;
+}
+
+#signalFill {
+
+    fill:
+        rgba(79,145,136,.62);
+
+    stroke: none;
+}
+
+#signalLine {
+
+    fill: none;
+
+    stroke: #7fffd4;
+
+    stroke-width: 2.5;
+
+    stroke-linecap: round;
+
+    stroke-linejoin: round;
+
+    filter:
+        drop-shadow(
+            0 0 4px
+            rgba(127,255,212,.85)
+        );
+}
+
+
+/* =========================================
+   DRONE CARD
+   ========================================= */
+
+.drone-card {
+
+    padding: 15px 17px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    background: #100b15;
+
+    border: 1px solid #2b1b38;
+
+    border-radius: 11px;
+}
+
+.drone-card h3 {
+
+    font-size: 12px;
+
+    letter-spacing: 1.5px;
+}
+
+.drone-status {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    margin-top: 7px;
+
+    font-size: 8px;
+
+    font-weight: bold;
+
+    letter-spacing: 1px;
+
+    color: #7fffd4;
+}
+
+.drone-status span {
+
+    width: 6px;
+
+    height: 6px;
+
+    border-radius: 50%;
+
+    background: #7fffd4;
+
+    box-shadow:
+        0 0 8px #7fffd4;
+}
+
+.drone-card p {
+
+    font-size: 9px;
+
+    color: #756a7b;
+}
+
+.drone-card b {
+
+    color: white;
+}
+
+
+/* =========================================
+   PHONE MARKERS
+   ========================================= */
+
+.phone-marker {
+
+    background:
+        transparent !important;
+
+    border: none !important;
+}
+
+.phone-wrapper {
+
+    position: relative;
+
+    width: 100px;
+
+    height: 120px;
+
+    display: flex;
+
+    justify-content: center;
+
+    cursor: pointer;
+}
+
+.phone-glow {
+
+    position: absolute;
+
+    top: 5px;
+
+    width: 48px;
+
+    height: 48px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(127,255,212,.12);
+
+    box-shadow:
+        0 0 15px
+        rgba(127,255,212,.5),
+
+        0 0 30px
+        rgba(127,255,212,.2);
+
+    animation:
+        phonePulse 2s infinite;
+}
+
+@keyframes phonePulse {
+
+    0% {
+        transform: scale(.8);
+        opacity: .4;
+    }
+
+    50% {
+        transform: scale(1.3);
+        opacity: .12;
+    }
+
+    100% {
+        transform: scale(.8);
+        opacity: .4;
+    }
+}
+
+.phone-device {
+
+    position: absolute;
+
+    top: 5px;
+
+    width: 34px;
+
+    height: 57px;
+
+    background: #09070d;
+
+    border:
+        2px solid #7fffd4;
+
+    border-radius: 7px;
+
+    box-shadow:
+        0 0 8px #7fffd4,
+
+        0 0 20px
+        rgba(127,255,212,.25);
+
+    z-index: 2;
+
+    transition: .25s ease;
+}
+
+.phone-screen {
+
+    position: absolute;
+
+    left: 4px;
+
+    right: 4px;
+
+    top: 7px;
+
+    bottom: 7px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: #160f1e;
+
+    border-radius: 3px;
+}
+
+.screen-sos {
+
+    font-size: 8px;
+
+    font-weight: bold;
+
+    color: #ff4f9a;
+
+    text-shadow:
+        0 0 6px #ff4f9a;
+}
+
+.screen-id {
+
+    margin-top: 3px;
+
+    font-size: 5px;
+
+    color: #7fffd4;
+}
+
+.phone-speaker {
+
+    position: absolute;
+
+    top: 3px;
+
+    left: 50%;
+
+    transform:
+        translateX(-50%);
+
+    width: 8px;
+
+    height: 2px;
+
+    border-radius: 2px;
+
+    background: #4b4052;
+}
+
+.phone-button {
+
+    position: absolute;
+
+    bottom: 3px;
+
+    left: 50%;
+
+    transform:
+        translateX(-50%);
+
+    width: 4px;
+
+    height: 4px;
+
+    border-radius: 50%;
+
+    background: #4b4052;
+}
+
+.phone-label {
+
+    position: absolute;
+
+    top: 66px;
+
+    width: 90px;
+
+    padding: 5px 6px;
+
+    text-align: center;
+
+    background:
+        rgba(10,7,13,.94);
+
+    border:
+        1px solid #392248;
+
+    border-radius: 5px;
+
+    box-shadow:
+        0 4px 15px
+        rgba(0,0,0,.5);
+
+    transition: .25s ease;
+}
+
+.phone-label strong {
+
+    display: block;
+
+    font-size: 8px;
+
+    letter-spacing: 1px;
+
+    color: white;
+}
+
+.phone-label span {
+
+    display: block;
+
+    margin-top: 2px;
+
+    font-size: 7px;
+
+    color: #7fffd4;
+}
+
+.phone-label small {
+
+    display: block;
+
+    margin-top: 2px;
+
+    font-size: 6px;
+
+    color: #ff4f9a;
+}
+
+
+/* =========================================
+   SELECTED PHONE
+   ========================================= */
+
+.selected-phone .phone-device {
+
+    transform:
+        scale(1.18);
+
+    border-color:
+        #ff4f9a;
+
+    box-shadow:
+
+        0 0 10px
+        #ff4f9a,
+
+        0 0 25px
+        rgba(255,79,154,.75),
+
+        0 0 45px
+        rgba(255,79,154,.35);
+}
+
+.selected-phone .phone-glow {
+
+    background:
+        rgba(255,79,154,.18);
+
+    box-shadow:
+
+        0 0 20px
+        rgba(255,79,154,.8),
+
+        0 0 40px
+        rgba(255,79,154,.4);
+}
+
+.selected-phone .phone-label {
+
+    border-color:
+        #ff4f9a;
+
+    box-shadow:
+        0 0 15px
+        rgba(255,79,154,.4);
+}
+
+.selected-phone .phone-label strong {
+
+    color: #ff4f9a;
+}
+
+
+/* =========================================
+   DRONE MARKER
+   ========================================= */
+
+.drone-marker {
+
+    background:
+        transparent !important;
+
+    border: none !important;
+}
+
+.drone-wrapper {
+
+    position: relative;
+
+    width: 110px;
+
+    height: 100px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+}
+
+.drone-body {
+
+    position: relative;
+
+    width: 42px;
+
+    height: 42px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #171020;
+
+    border:
+        2px solid #a56cff;
+
+    color: #a56cff;
+
+    font-size: 20px;
+
+    box-shadow:
+
+        0 0 12px
+        #a56cff,
+
+        0 0 30px
+        rgba(165,108,255,.35);
+
+    z-index: 2;
+}
+
+.drone-ring {
+
+    position: absolute;
+
+    width: 65px;
+
+    height: 65px;
+
+    border:
+        1px dashed #a56cff;
+
+    border-radius: 50%;
+
+    animation:
+        droneScan 2s linear infinite;
+}
+
+@keyframes droneScan {
+
+    0% {
+        transform: scale(.7);
+        opacity: .8;
+    }
+
+    100% {
+        transform: scale(1.5);
+        opacity: 0;
+    }
+}
+
+.drone-label {
+
+    position: absolute;
+
+    top: 70px;
+
+    padding: 4px 7px;
+
+    background:
+        rgba(10,7,13,.95);
+
+    border:
+        1px solid #4b3470;
+
+    border-radius: 4px;
+
+    font-size: 7px;
+
+    font-weight: bold;
+
+    letter-spacing: 1px;
+
+    color: #a56cff;
+}
+
+.drone-label span {
+
+    display: block;
+
+    margin-top: 2px;
+
+    font-size: 6px;
+
+    color: #7fffd4;
+
+    text-align: center;
+}
+
+
+/* =========================================
+   MAP FULLSCREEN / EXPAND BUTTON
+   ========================================= */
+
+.map-fullscreen-button {
+
+    width: 38px;
+
+    height: 38px;
+
+    margin: 10px !important;
+
+    padding: 0;
+
+    background:
+        rgba(13,9,18,.95);
+
+    border:
+        1px solid #53346b !important;
+
+    border-radius: 7px;
+
+    color: #7fffd4;
+
+    font-size: 22px;
+
+    font-weight: bold;
+
+    line-height: 34px;
+
+    text-align: center;
+
+    cursor: pointer;
+
+    transition: .2s ease;
+}
+
+.map-fullscreen-button:hover {
+
+    background:
+        #1b1024;
+
+    color:
+        #ff4f9a;
+
+    border-color:
+        #ff4f9a !important;
+
+    box-shadow:
+        0 0 15px
+        rgba(255,79,154,.35);
+}
+
+
+/* =========================================
+   EXPANDED MAP
+   ========================================= */
+
+body.map-expanded header,
+body.map-expanded .stats {
+
+    display: none;
+}
+
+body.map-expanded main {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 0;
+
+    padding: 0;
+}
+
+body.map-expanded .map-section {
+
+    width: 100%;
+
+    order: 1;
+}
+
+body.map-expanded
+.map-section
+.section-title {
+
+    display: none;
+}
+
+body.map-expanded #map {
+
+    width: 100%;
+
+    height: 100vh;
+
+    min-height: 100vh;
+
+    border: none;
+
+    border-radius: 0;
+}
+
+body.map-expanded aside {
+
+    order: 2;
+
+    width: 100%;
+
+    max-width: 900px;
+
+    margin: 0 auto;
+
+    padding: 35px 25px 60px;
+}
+
+body.map-expanded
+.map-fullscreen-button {
+
+    position: fixed !important;
+
+    top: 10px;
+
+    right: 10px;
+
+    z-index: 99999;
+
+    margin: 0 !important;
+}
+
+
+/* =========================================
+   LEAFLET
+   ========================================= */
+
+.leaflet-control-zoom a {
+
+    background:
+        #100b15 !important;
+
+    color:
+        white !important;
+
+    border-color:
+        #3a2845 !important;
+}
+
+.leaflet-control-zoom a:hover {
+
+    background:
+        #1b1024 !important;
+}
+
+.leaflet-control-attribution {
+
+    background:
+        rgba(10,7,13,.8) !important;
+
+    color:
+        #776b82 !important;
+}
+
+.leaflet-control-attribution a {
+
+    color:
+        #9b7bb0 !important;
+}
+
+
+/* =========================================
+   RESPONSIVE
+   ========================================= */
+
+@media (max-width: 1000px) {
+
+    .stats {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    main {
+
+        grid-template-columns: 1fr;
+    }
+
+    #map {
+
+        height: 500px;
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    header {
+
+        padding: 0 20px;
+    }
+
+    header h1 {
+
+        font-size: 22px;
+    }
+
+    .stats {
+
+        padding: 20px;
+
+        grid-template-columns:
+            1fr 1fr;
+    }
+
+    main {
+
+        padding:
+            0 20px 20px;
+    }
+
+    #map {
+
+        height: 420px;
+    }
+
+    .panel-heading h2 {
+
+        font-size: 20px;
+    }
+
+    body.map-expanded aside {
+
+        padding:
+            25px 15px 50px;
+    }
+
+}
+/* =========================================
+   SELECTED MESH ROUTE
+   ========================================= */
+
+.selected-route {
+
+    filter:
+        drop-shadow(
+            0 0 4px
+            rgba(127,255,212,.95)
+        )
+
+        drop-shadow(
+            0 0 10px
+            rgba(127,255,212,.55)
+        );
+
+}
+
+
+.selected-route-glow {
+
+    filter:
+        drop-shadow(
+            0 0 12px
+            rgba(127,255,212,.7)
+        );
+
+    pointer-events: none;
+
+}
