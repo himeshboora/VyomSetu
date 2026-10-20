@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#09060D"
+    android:padding="24dp">
+
+    <!-- Default Monitoring UI -->
+    <LinearLayout
+        android:id="@+id/monitoringPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="VyomSetu"
+            android:textColor="#FFFFFF"
+            android:textSize="32sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="SHIELD ACTIVE &amp; MONITORING"
+            android:textColor="#7FFFD4"
+            android:textSize="14sp"
+            android:letterSpacing="0.1"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- Hidden Emergency Overlay -->
+    <LinearLayout
+        android:id="@+id/emergencyPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="#1A0B12"
+        android:padding="24dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CRITICAL IMPACT"
+            android:textColor="#FF4F9A"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/timerText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="20"
+            android:textColor="#FFFFFF"
+            android:textSize="64sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Seconds until SOS is broadcast"
+            android:textColor="#C2BAC8"
+            android:textSize="14sp"
+            android:layout_marginBottom="24dp" />
+
+        <Button
+            android:id="@+id/btnHelpNeeded"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:backgroundTint="#FF4F9A"
+            android:text="HELP NEEDED (SEND SOS)"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnSafe"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="12dp"
+            android:backgroundTint="#2B1B38"
+            android:text="I'M SAFE (CANCEL)"
+            android:textColor="#7FFFD4"
+            android:textStyle="bold" />
+    </LinearLayout>
+</RelativeLayout>
